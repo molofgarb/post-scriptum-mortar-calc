@@ -8,14 +8,16 @@
 
 class Coordinate {
 public:
-    Coordinate(const std::string& grid, bool mortar = true);
+    Coordinate(const std::string& grid);
     Coordinate(const Coordinate& other);
     ~Coordinate();
     Coordinate& operator=(const Coordinate& other);
 
     double distance(const Coordinate& target) const; //distance between two coordinates
+    double angle(const Coordinate& target) const;
 
 private:
+    //holds the portion of the coordinate described with numpad notation
     struct SubCoordinate {
         SubCoordinate(const std::vector<int>& numpads);
         SubCoordinate(int x, int y, int size);
@@ -28,13 +30,13 @@ private:
         std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
     };
 
-    double Coordinate::xDiff(const Coordinate& target) const;
-    double Coordinate::yDiff(const Coordinate& target) const;
+    //finds components of distance between two coordinates
+    double xDiff(const Coordinate& target) const;
+    double yDiff(const Coordinate& target) const;
 
     int x;
     int y;
     SubCoordinate* sc;
-    bool mortar; //mortar or target?
 };
 
 #endif
