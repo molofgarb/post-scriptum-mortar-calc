@@ -7,6 +7,7 @@
 #include <utility>
 
 class Coordinate {
+    friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
 public:
     Coordinate(const std::string& grid);
     Coordinate(const Coordinate& other);
@@ -27,6 +28,7 @@ private:
         int y; //distance from topleft in y
         int size; //total extent of distance
     private:
+        friend std::ostream& operator<<(std::ostream& os, const SubCoordinate& rhs);
         std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
     };
 
