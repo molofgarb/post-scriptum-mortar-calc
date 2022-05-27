@@ -1,8 +1,8 @@
 ver := -std=c++17
 
 # Build executable
-psMortarTool.exe: main.o coordinate.o dist_to_mils.o
-	g++ ${ver} main.o coordinate.o dist_to_mils.o -o psMortarTool.exe 
+psMortarTool: main.o coordinate.o dist_to_mils.o
+	g++ ${ver} main.o coordinate.o dist_to_mils.o -o psMortarTool
 
 # Compile main
 main.o: src/coordinate.h src/main.cpp
