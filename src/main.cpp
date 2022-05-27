@@ -1,4 +1,5 @@
 #include "coordinate.h"
+#include "dist_to_mils.h"
 using std::cin;
 using std::cout;
 using std::endl;
