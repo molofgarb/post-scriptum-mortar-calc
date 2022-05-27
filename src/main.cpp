@@ -10,7 +10,7 @@ int main() {
     cout << "Post Scriptum Mortar Calculator\n"
         "When inputting coordinates, additional numpads can be added for accuracy\n"
         "(ex. A1-7-7-7-7-...)\n"
-        "To exit at any time, type \"exit\" as an input\n" << endl;
+        "To exit at any time, type \"exit\" as an input or press Ctrl+C\n" << endl;
     while (true) {
         Coordinate mortar(mortarLoc), target(targetLoc);
 
@@ -33,6 +33,8 @@ int main() {
         
         cout << "Distance: " << mortar.distance(target) << " m" << endl;
         cout << "Angle: " << mortar.angle(target) << " degrees" << endl;
+        cout << mortar << endl;
+        cout << target << endl;
         cout << endl;
     }
     cout << "An error has occurred..."
