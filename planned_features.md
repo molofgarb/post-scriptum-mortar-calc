@@ -17,3 +17,8 @@
 
 # Misc. Things to do
 - Verify if relative height between mortar and target affects calculations
+- Add list of useful admin commands
+- Add list of tank spawn commands
+
+# To-do
+- fix error handling
