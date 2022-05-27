@@ -1,16 +1,22 @@
 #include "coordinate.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <utility>
+
 #include <cmath>
+
 using std::cin;
 using std::cout;
 using std::endl;
 
-const double SCALE = 300;
-const double PI = 2 * acos(0.0);
+const int scale = 300;
+const int pi = 2 * acos(0.0);
 
 // ============ SubCoordinate ============
 
 //converts numpad coordinate relative to top-left corner to xy coordinate
-Coordinate::SubCoordinate::SubCoordinate(const std::vector<int>& numpads): size(1) {
+Coordinate::SubCoordinate::SubCoordinate(const std::vector<int>& numpads) {
     std::pair<int, int> coord = numpadToSubCoord(numpads,
         std::pow(3, numpads.size() - 1));
     x = coord.first;
@@ -30,8 +36,12 @@ std::pair<int, int> Coordinate::SubCoordinate::numpadToSubCoord(const std::vecto
 }
 
 //returns coordinates as a ratio of distance to max distance
-double Coordinate::SubCoordinate::xToDouble() const { return (double) x / (double) size; }
-double Coordinate::SubCoordinate::yToDouble() const { return (double) y / (double) size; }
+double Coordinate::SubCoordinate::xToDouble() const { 
+    return (double) x / (double) size; 
+}
+double Coordinate::SubCoordinate::yToDouble() const { 
+    return (double) y / (double) size; 
+}
 
 
 
@@ -39,7 +49,11 @@ double Coordinate::SubCoordinate::yToDouble() const { return (double) y / (doubl
 
 Coordinate::Coordinate(const std::string& grid) {
     x = std::toupper(grid[0]) - 'A';
-    y = (grid[2] == '-') ? grid[1] : grid[1] * 10 + grid[2];
+    y = (grid[2] == '-') ? grid[1] : (grid[1] * 10 + grid[2]);
+    // if (grid[2] == '-')
+    //     cout << grid[1] << endl;
+    // else 
+    //     cout << (grid[1] * 10) + (int)grid[2] << endl;
     std::vector<int> numpads;
     for (size_t i = 3; i < grid.size(); i += 2)
         numpads.push_back(grid[i]);
@@ -67,12 +81,12 @@ Coordinate& Coordinate::operator=(const Coordinate& other) {
 
 //finds the x-component of vector between this and target
 double Coordinate::xDiff(const Coordinate& target) const {
-    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * SCALE;
+    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * scale;
 }
 
 //finds the y-component of vector between this and target
 double Coordinate::yDiff(const Coordinate& target) const {
-    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * SCALE;
+    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * scale;
 }
 
 double Coordinate::distance(const Coordinate& target) const {
@@ -80,8 +94,21 @@ double Coordinate::distance(const Coordinate& target) const {
 }
 
 double Coordinate::angle(const Coordinate& target) const {
-    return (std::atan2(yDiff(target), xDiff(target)) * (180/PI)) + 90.0;
+    return (std::atan2(yDiff(target), xDiff(target)) * (180/pi)) + 90.0;
 }
+
+// std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
+//     os << (char) (rhs.x + 'A') << rhs.y;
+//     int x = rhs.sc->x;
+//     int y = rhs.sc->y;
+//     // int mult = rhs.sc->size / 3;
+//     // while (x > 0) {
+//     //     os << '-' << (x + 1) + ((y + 1) * 3);
+//     //     x /= 3;
+//     //     y /= 3;
+//     // }
+//     return os;
+// }
 
 
 

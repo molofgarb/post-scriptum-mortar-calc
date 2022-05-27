@@ -5,11 +5,6 @@
 #include <utility>
 #include <map>
 
-#define MAX_SHORT_DIST 1400
-#define MAX_LONG_DIST 2500
-#define SHORT_INTERVAL 50
-#define LONG_INTERVAL 100
-
 class DistToMils {
 public:
     DistToMils(std::istream& is);
