@@ -33,9 +33,9 @@ int main() {
         
         cout << "Distance: " << mortar.distance(target) << " m" << endl;
         cout << "Angle: " << mortar.angle(target) << " degrees" << endl;
-        cout << mortar << endl;
-        cout << target << endl;
-        cout << endl;
+        // cout << mortar << endl;
+        // cout << target << endl;
+        // cout << endl;
     }
     cout << "An error has occurred..."
     "(press enter to quit)" << endl;
