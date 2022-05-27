@@ -50,10 +50,10 @@ double Coordinate::SubCoordinate::yToDouble() const {
 Coordinate::Coordinate(const std::string& grid) {
     x = std::toupper(grid[0]) - 'A';
     y = (grid[2] == '-') ? grid[1] : (grid[1] * 10 + grid[2]);
-    // if (grid[2] == '-')
-    //     cout << grid[1] << endl;
-    // else 
-    //     cout << (grid[1] * 10) + (int)grid[2] << endl;
+    if (grid[2] == '-')
+        cout << grid[1] << endl;
+    else 
+        cout << (grid[1] * 10) + (int)grid[2] << endl;
     std::vector<int> numpads;
     for (size_t i = 3; i < grid.size(); i += 2)
         numpads.push_back(grid[i]);
@@ -97,18 +97,18 @@ double Coordinate::angle(const Coordinate& target) const {
     return (std::atan2(yDiff(target), xDiff(target)) * (180/pi)) + 90.0;
 }
 
-// std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
-//     os << (char) (rhs.x + 'A') << rhs.y;
-//     int x = rhs.sc->x;
-//     int y = rhs.sc->y;
-//     // int mult = rhs.sc->size / 3;
-//     // while (x > 0) {
-//     //     os << '-' << (x + 1) + ((y + 1) * 3);
-//     //     x /= 3;
-//     //     y /= 3;
-//     // }
-//     return os;
-// }
+std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
+    os << (char) (rhs.x + 'A') << rhs.y;
+    int x = rhs.sc->x;
+    int y = rhs.sc->y;
+    // int mult = rhs.sc->size / 3;
+    // while (x > 0) {
+    //     os << '-' << (x + 1) + ((y + 1) * 3);
+    //     x /= 3;
+    //     y /= 3;
+    // }
+    return os;
+}
 
 
 
