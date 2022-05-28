@@ -10,8 +10,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-const int scale = 300;
-const int pi = 2 * acos(0.0);
+const int kScale = 300;
+const int kPi = 2 * acos(0.0);
 
 // ============ SubCoordinate ============
 
@@ -43,17 +43,20 @@ double Coordinate::SubCoordinate::yToDouble() const {
     return (double) y / (double) size; 
 }
 
-
+int Coordinate::SubCoordinate::getX() const {
+    return x;
+}
+int Coordinate::SubCoordinate::getY() const {
+    return y;
+}
 
 // ============ Coordinate ============
 
 Coordinate::Coordinate(const std::string& grid) {
     x = std::toupper(grid[0]) - 'A';
-    y = (grid[2] == '-') ? grid[1] : (grid[1] * 10 + grid[2]);
-    if (grid[2] == '-')
-        cout << grid[1] << endl;
-    else 
-        cout << (grid[1] * 10) + (int)grid[2] << endl;
+    y = (grid[2] == '-') ? 
+        grid[1] - '1' : 
+        ((grid[1] - '1') * 10 + (grid[2] - '1'));
     std::vector<int> numpads;
     for (size_t i = 3; i < grid.size(); i += 2)
         numpads.push_back(grid[i]);
@@ -81,12 +84,12 @@ Coordinate& Coordinate::operator=(const Coordinate& other) {
 
 //finds the x-component of vector between this and target
 double Coordinate::xDiff(const Coordinate& target) const {
-    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * scale;
+    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * kScale;
 }
 
 //finds the y-component of vector between this and target
 double Coordinate::yDiff(const Coordinate& target) const {
-    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * scale;
+    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * kScale;
 }
 
 double Coordinate::distance(const Coordinate& target) const {
@@ -94,13 +97,14 @@ double Coordinate::distance(const Coordinate& target) const {
 }
 
 double Coordinate::angle(const Coordinate& target) const {
-    return (std::atan2(yDiff(target), xDiff(target)) * (180/pi)) + 90.0;
+    cout << "the arctan is " << std::atan2(yDiff(target), xDiff(target)) << endl;
+    return (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
 }
 
 std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
-    os << (char) (rhs.x + 'A') << rhs.y;
-    int x = rhs.sc->x;
-    int y = rhs.sc->y;
+    os << (char)((char)rhs.x + 'A') << rhs.y + 1;
+    int x = rhs.sc->getX();
+    int y = rhs.sc->getY();
     // int mult = rhs.sc->size / 3;
     // while (x > 0) {
     //     os << '-' << (x + 1) + ((y + 1) * 3);

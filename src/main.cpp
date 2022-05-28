@@ -3,10 +3,12 @@
 using std::cin;
 using std::cout;
 using std::endl;
+#include <cmath>
 
 int main() {
     bool brit4cm;
     std::string mortarLoc, targetLoc;
+    cout << atan(1)*4 << endl;
     cout << "Post Scriptum Mortar Calculator\n"
         "When inputting coordinates, additional numpads can be added for accuracy\n"
         "(ex. A1-7-7-7-7-...)\n"

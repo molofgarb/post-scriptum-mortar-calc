@@ -2,10 +2,14 @@
 #define DIST_TO_MILS_H
 
 #include <fstream>
-#include <utility>
 #include <map>
 
 class DistToMils {
+    struct Mils {
+        Mils(int short_mortar = 0, int long_mortar = 0);
+        int short_mortar;
+        int long_mortar;
+    };
 public:
     DistToMils(std::istream& is);
 
@@ -14,7 +18,7 @@ private:
     double convertShort(int distance) const;
     double convertLong(int distance) const;
 
-    std::map<int, std::pair<int, int>> table; //conversions
+    std::map<int, Mils> table; //conversions
 };
 
 #endif
