@@ -11,7 +11,7 @@ using std::cout;
 using std::endl;
 
 const int kScale = 300;
-const int kPi = 2 * acos(0.0);
+const double kPi = 2 * acos(0.0);
 
 // ============ SubCoordinate ============
 
