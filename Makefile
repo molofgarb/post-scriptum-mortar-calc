@@ -2,16 +2,12 @@ ver := -std=c++17
 
 # Build executable
 psMortarTool: main.o coordinate.o dist_to_mils.o
-<<<<<<< HEAD
-	g++ ${ver} main.o coordinate.o dist_to_mils.o -o psMortarTool
-=======
 	g++ ${ver} \
 	main.o \
 	coordinate.o \
 	dist_to_mils.o \
 	mortar.o \
 	-o psMortarTool
->>>>>>> coord-stringstr
 
 # Compile main
 main.o: src/coordinate.h src/main.cpp

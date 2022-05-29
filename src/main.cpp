@@ -58,17 +58,11 @@ int main() {
         double distance = mortar.distance(target);
         cout << "Distance: " << distance << " m" << endl;
         cout << "Angle: " << mortar.angle(target) << " degrees" << endl;
-<<<<<<< HEAD
-        // cout << mortar << endl;
-        // cout << target << endl;
-        // cout << endl;
-=======
         cout << "Milradians: " << conversion(distance, 0) << " milradians" << endl;
         cout << "\n";
         cout << "Mortar Coordinate: " << mortar << endl;
         cout << "Target Coordinate: " << target << endl;
         cout << "\n\n" << endl;
->>>>>>> coord-stringstr
     }
 
     cout << "An error has occurred..."
