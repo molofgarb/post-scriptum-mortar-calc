@@ -1,53 +1,69 @@
 #include "dist_to_mils.h"
 #include <fstream>
-#include <utility>
 #include <map>
+#include <vector>
 
 #include <string>
+#include <sstream>
 #include <cmath>
 
-const int max_short_dist = 1400;
-const int max_long_dist = 2500;
-const int short_interval = 50;
-const int long_interval = 100;
+#include <iostream>
 
-DistToMils::DistToMils(std::istream& is) {
-    int range, shortMortar, longMortar;
+//converts milradian data in a csv file 
+DistToMils::DistToMils(std::istream& is, int mortarNum,
+                       std::vector<int> maxDist, std::vector<int> interval):
+         maxDist(maxDist), interval(interval) {
     char comma;
-    while (is >> range >> comma >> shortMortar >> comma >> longMortar) {
-        table[range] = std::make_pair(shortMortar, longMortar);
+    std::string line;
+    while (std::getline(is, line)) { //for every line in csv
+        std::vector<int> mortars;
+        int range = 0;
+        std::string token;
+        std::stringstream line_stream(line);
+        while (std::getline(line_stream, token, ',')) { //break line into tokens
+            if (range == 0) { //store range
+                range = std::stoi(token);
+            } else if (token != "") { //store milradian conversions
+                mortars.push_back(std::stoi(token));
+            } else { //no milradian value
+                mortars.push_back(0);
+            }
+        }
+        while (mortars.size() < mortarNum) //fill rest with unknown val
+            mortars.push_back(0);
+        table[range] = mortars;
     }
 }
 
-double DistToMils::operator()(double distance, bool shortMortar) const {
-    int roundedDist = (int)std::round(distance);
-    if (shortMortar && roundedDist <= max_short_dist) //within bounds
-        if (roundedDist % short_interval == 0) //on given mil
-            return table.at(roundedDist).first;
+//converts a distance to milradian for specified mortar
+double DistToMils::operator()(double distance, int mortarType) const {
+    int roundedDist = std::round(distance);
+    if (roundedDist <= maxDist[mortarType]) //within bounds
+        if (roundedDist % interval[mortarType] == 0) //on given mil
+            return table.at(roundedDist)[mortarType];
         else //approx mil
-            return convertShort(distance);
-    else if (!shortMortar && distance <= max_long_dist) //within bounds
-        if (roundedDist % long_interval == 0) //on given mil
-            return table.at(roundedDist).second;
-        else //approx mil
-            return convertLong(distance);
+            return approx(distance, mortarType);
     else
         return 0;
 }
 
 //Newton's method on interval between 
-double DistToMils::convertShort(int distance) const {
-    int upper = distance + (short_interval  - (distance % short_interval));
-    int lower = distance - (distance % short_interval);
-    double slope = (table.at(upper).first - table.at(lower).first)  
-        / short_interval;
-    return lower + (slope * (distance - lower));
+double DistToMils::approx(int distance, int mortarType) const {
+    int inter = interval[mortarType];
+    int upper = distance + (inter - (distance % inter)); //upper bound
+    int lower = distance - (distance % inter); //lower bound
+    double slope = (double)(table.at(upper)[mortarType] - table.at(lower)[mortarType]) / inter;
+    return table.at(lower)[mortarType] + (slope * (distance - lower));
 }
 
-double DistToMils::convertLong(int distance) const {
-    int upper = distance + (long_interval  - (distance % long_interval));
-    int lower = distance - (distance % long_interval);
-    double slope = (table.at(upper).second - table.at(lower).second) 
-        / long_interval;
-    return lower + (slope * (distance - lower));
+//output function (mostly used for debug)
+std::ostream& operator<<(std::ostream& os, const DistToMils& rhs) {
+    for (auto& i : rhs.table) {
+        os << i.first << ": ";
+        for (size_t j = 0; j < i.second.size(); ++j) {
+            os << i.second[j] << ", ";
+        }
+        os << std::endl;
+    } 
+    return os << std::endl;
 }

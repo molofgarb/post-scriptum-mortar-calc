@@ -7,34 +7,42 @@
 #include <utility>
 
 class Coordinate {
-    friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
-public:
-    Coordinate(const std::string& grid);
-    Coordinate(const Coordinate& other);
-    ~Coordinate();
-    Coordinate& operator=(const Coordinate& other);
-
-    double distance(const Coordinate& target) const; //distance between two coordinates
-    double angle(const Coordinate& target) const;
-
-private:
     //holds the portion of the coordinate described with numpad notation
-    struct SubCoordinate {
+    class SubCoordinate {
+        
+    public:
         SubCoordinate(const std::vector<int>& numpads);
         SubCoordinate(int x, int y, int size);
         double xToDouble() const;
         double yToDouble() const;
+
+        inline int getX() const;
+        inline int getY() const;
+        inline int getSize() const;
+    private:
+        std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
+
         int x; //distance from topleft in x
         int y; //distance from topleft in y
         int size; //total extent of distance
-    private:
-        friend std::ostream& operator<<(std::ostream& os, const SubCoordinate& rhs);
-        std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
     };
+public:
+    Coordinate(const std::string& grid);
+    Coordinate(const Coordinate& other);
+    Coordinate& operator=(const Coordinate& other);
+    
+    ~Coordinate();
+    
+    double distance(const Coordinate& target) const; //distance between two coordinates
+    double angle(const Coordinate& target) const;
 
+private:
     //finds components of distance between two coordinates
     double xDiff(const Coordinate& target) const;
     double yDiff(const Coordinate& target) const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs);
 
     int x;
     int y;

@@ -10,12 +10,12 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-const int scale = 300;
-const int pi = 2 * acos(0.0);
+const int kScale = 300;
+const double kPi = 2 * acos(0.0);
 
 // ============ SubCoordinate ============
 
-//converts numpad coordinate relative to top-left corner to xy coordinate
+//stores numpad coordinate relative to top-left corner as bounded xy
 Coordinate::SubCoordinate::SubCoordinate(const std::vector<int>& numpads) {
     std::pair<int, int> coord = numpadToSubCoord(numpads,
         std::pow(3, numpads.size() - 1));
@@ -24,6 +24,7 @@ Coordinate::SubCoordinate::SubCoordinate(const std::vector<int>& numpads) {
     size = std::pow(3, numpads.size());
 }
 
+//converts numpad coordinate relative to top-left corner to xy coordinate
 std::pair<int, int> Coordinate::SubCoordinate::numpadToSubCoord(const std::vector<int>& numpads, 
                                                                 int mult) {
     std::pair<int, int> coord = std::make_pair(0, 0);
@@ -43,20 +44,49 @@ double Coordinate::SubCoordinate::yToDouble() const {
     return (double) y / (double) size; 
 }
 
+//returns stored data
+int Coordinate::SubCoordinate::getX() const {
+    return x;
+}
+int Coordinate::SubCoordinate::getY() const {
+    return y;
+}
+int Coordinate::SubCoordinate::getSize() const {
+    return size;
+}
 
+//converts bounded xy coordinate back to 
+std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs) {
+    int x = rhs.getX();
+    int y = rhs.getY();
+    int size = rhs.getSize();
+    std::vector<int> numpads; //stored in reverse order - more to less detail
+    while (size > 0) { //generate numpad coordinates
+        numpads.push_back(
+            (x % 3) + ((2 - (y % 3)) * 3) + 1
+        );
+        x /= 3;
+        y /= 3;
+        size /= 3;
+    }
+    for (int i = numpads.size() - 1; i > 0; --i)
+        os << numpads[i] << ((i == 1) ? "" : "-");
+    return os;
+}
 
 // ============ Coordinate ============
 
-Coordinate::Coordinate(const std::string& grid) {
+//parses coordinate string
+Coordinate::Coordinate(const std::string& grid):
+        x(-1), y(-1), sc(nullptr) {
     x = std::toupper(grid[0]) - 'A';
-    y = (grid[2] == '-') ? grid[1] : (grid[1] * 10 + grid[2]);
-    // if (grid[2] == '-')
-    //     cout << grid[1] << endl;
-    // else 
-    //     cout << (grid[1] * 10) + (int)grid[2] << endl;
+    y = (grid[2] == '-') ? 
+        grid[1] - '1' : 
+        ((grid[1] - '1') * 10 + (grid[2] - '1'));
+
     std::vector<int> numpads;
     for (size_t i = 3; i < grid.size(); i += 2)
-        numpads.push_back(grid[i]);
+        numpads.push_back(grid[i] - '0');
     sc = new SubCoordinate(numpads);
 }
 
@@ -81,12 +111,12 @@ Coordinate& Coordinate::operator=(const Coordinate& other) {
 
 //finds the x-component of vector between this and target
 double Coordinate::xDiff(const Coordinate& target) const {
-    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * scale;
+    return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * kScale;
 }
 
 //finds the y-component of vector between this and target
 double Coordinate::yDiff(const Coordinate& target) const {
-    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * scale;
+    return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * kScale;
 }
 
 double Coordinate::distance(const Coordinate& target) const {
@@ -94,40 +124,11 @@ double Coordinate::distance(const Coordinate& target) const {
 }
 
 double Coordinate::angle(const Coordinate& target) const {
-    return (std::atan2(yDiff(target), xDiff(target)) * (180/pi)) + 90.0;
+    return (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
 }
 
-// std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
-//     os << (char) (rhs.x + 'A') << rhs.y;
-//     int x = rhs.sc->x;
-//     int y = rhs.sc->y;
-//     // int mult = rhs.sc->size / 3;
-//     // while (x > 0) {
-//     //     os << '-' << (x + 1) + ((y + 1) * 3);
-//     //     x /= 3;
-//     //     y /= 3;
-//     // }
-//     return os;
-// }
-
-
-
-// int main() {
-//     // std::vector<int> numpads = {3, 4, 5};
-//     // Coordinate::SubCoordinate test(numpads);
-//     // std::cout << "x: " << test.x << std::endl;
-//     // std::cout << "y: " << test.y << std::endl;
-//     // std::cout << "size: " << test.size << std::endl;
-
-//     cout << Coordinate("A1-7-7").distance(Coordinate("B1-7-7")) << endl; //300
-//     cout << Coordinate("A1-7-7").distance(Coordinate("A2-7-7")) << endl; //300
-//     cout << Coordinate("A1-7-7").distance(Coordinate("B2-7-7")) << endl; //300 * sqrt2 = 424
-//     cout << Coordinate("A2-9-2").distance(Coordinate("D7-4-5")) << endl; //~1715
-//     cout << endl;
-
-//     cout << Coordinate("A1-7-7").angle(Coordinate("B1-7-7")) << endl; //90
-//     cout << Coordinate("A1-7-7").angle(Coordinate("A2-7-7")) << endl; //180
-//     cout << Coordinate("A1-7-7").angle(Coordinate("B2-7-7")) << endl; //135
-//     cout << Coordinate("A2-9-2").angle(Coordinate("D7-4-5")) << endl; //somewhere in quadrant 2
-//     std::cin.get();
-// }
+std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
+    os << (char)((char)rhs.x + 'A') << rhs.y + 1; //output xy
+    os << '-' << *(rhs.sc); //output numpad
+    return os;
+}
