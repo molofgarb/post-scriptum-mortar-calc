@@ -132,25 +132,3 @@ std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
     os << '-' << *(rhs.sc); //output numpad
     return os;
 }
-
-
-
-// int main() {
-//     // std::vector<int> numpads = {3, 4, 5};
-//     // Coordinate::SubCoordinate test(numpads);
-//     // std::cout << "x: " << test.x << std::endl;
-//     // std::cout << "y: " << test.y << std::endl;
-//     // std::cout << "size: " << test.size << std::endl;
-
-//     cout << Coordinate("A1-7-7").distance(Coordinate("B1-7-7")) << endl; //300
-//     cout << Coordinate("A1-7-7").distance(Coordinate("A2-7-7")) << endl; //300
-//     cout << Coordinate("A1-7-7").distance(Coordinate("B2-7-7")) << endl; //300 * sqrt2 = 424
-//     cout << Coordinate("A2-9-2").distance(Coordinate("D7-4-5")) << endl; //~1715
-//     cout << endl;
-
-//     cout << Coordinate("A1-7-7").angle(Coordinate("B1-7-7")) << endl; //90
-//     cout << Coordinate("A1-7-7").angle(Coordinate("A2-7-7")) << endl; //180
-//     cout << Coordinate("A1-7-7").angle(Coordinate("B2-7-7")) << endl; //135
-//     cout << Coordinate("A2-9-2").angle(Coordinate("D7-4-5")) << endl; //somewhere in quadrant 2
-//     std::cin.get();
-// }
