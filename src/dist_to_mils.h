@@ -3,22 +3,21 @@
 
 #include <fstream>
 #include <map>
+#include <vector>
 
 class DistToMils {
-    struct Mils {
-        Mils(int short_mortar = 0, int long_mortar = 0);
-        int short_mortar;
-        int long_mortar;
-    };
 public:
-    DistToMils(std::istream& is);
+    DistToMils(std::istream& is, int mortarNum, std::vector<int> maxDist, std::vector<int> interval);
 
-    double operator()(double distance, bool shortMortar) const;
+    double operator()(double distance, int mortarType) const;
 private:
-    double convertShort(int distance) const;
-    double convertLong(int distance) const;
+    double approx(int distance, int mortarType) const;
 
-    std::map<int, Mils> table; //conversions
+    friend std::ostream& operator<<(std::ostream& os, const DistToMils& rhs);
+
+    std::map<int, std::vector<int>> table; //conversions - range, array of conversions
+    std::vector<int> interval;
+    std::vector<int> maxDist;
 };
 
 #endif

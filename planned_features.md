@@ -12,7 +12,7 @@
 - Track enemy truck timers (logi, MSP)
 - Overlay exclusion zone on map
     - Layer-specific objective locations and exclusion zones marked
-- Overlay cap zones on map (warning: time-consuming)
+- Overlay cap zones on map (warning: time-consuming data gathering)
 - Place markers on map
 
 # Misc. Things to do
@@ -22,3 +22,23 @@
 
 # To-do
 - fix error handling
+- rework string parsing in coordinate.cpp
+- handle a larger variety of inputs in main.cpp
+- state errors more elegantly in main.cpp
+- Complete class hierarchy:
+    - DistToMils: table...
+    - Coordinate: x, y, SubCoordinate
+        - Mortar: type, DistToMils*
+    - Asset: name
+        - Timed Asset: time
+            - Commander Assets
+        - Ticket Asset: ticket cost, amount
+            - Tank
+            - AT Guns
+            - Transport Vehicles
+        - (Timed and Ticket)
+            - Command Car
+            - Logistics Truck
+            - MSP
+    - Map: name, file (image)
+        - Layer: type, vector of pt. Coordinates, Factions:struct:(vehicle name, amount)
