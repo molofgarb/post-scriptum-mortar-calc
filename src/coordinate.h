@@ -9,7 +9,7 @@
 class Coordinate {
     //holds the portion of the coordinate described with numpad notation
     class SubCoordinate {
-        friend std::ostream& operator<<(std::ostream& os, const SubCoordinate& rhs);
+        
     public:
         SubCoordinate(const std::vector<int>& numpads);
         SubCoordinate(int x, int y, int size);
@@ -18,6 +18,7 @@ class Coordinate {
 
         inline int getX() const;
         inline int getY() const;
+        inline int getSize() const;
     private:
         std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
 
@@ -36,11 +37,12 @@ public:
     double angle(const Coordinate& target) const;
 
 private:
-    friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
-
     //finds components of distance between two coordinates
     double xDiff(const Coordinate& target) const;
     double yDiff(const Coordinate& target) const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs);
 
     int x;
     int y;
