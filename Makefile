@@ -1,7 +1,7 @@
 ver := -std=c++17
 
 # Build executable
-psMortarTool: main.o coordinate.o dist_to_mils.o
+psMortarTool: main.o coordinate.o dist_to_mils.o mortar.o
 	g++ ${ver} \
 	main.o \
 	coordinate.o \

@@ -9,7 +9,7 @@ class DistToMils {
 public:
     DistToMils(std::istream& is, int mortarNum, std::vector<int> maxDist, std::vector<int> interval);
 
-    double operator()(double distance, int mortarType) const;
+    double convert(double distance, int mortarType) const;
 private:
     double approx(int distance, int mortarType) const;
 

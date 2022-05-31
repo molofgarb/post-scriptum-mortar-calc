@@ -1,13 +1,14 @@
 #include "dist_to_mils.h"
+
+#include <iostream>
 #include <fstream>
 #include <map>
 #include <vector>
-
 #include <string>
 #include <sstream>
 #include <cmath>
 
-#include <iostream>
+
 
 //converts milradian data in a csv file 
 DistToMils::DistToMils(std::istream& is, int mortarNum,
@@ -36,7 +37,7 @@ DistToMils::DistToMils(std::istream& is, int mortarNum,
 }
 
 //converts a distance to milradian for specified mortar
-double DistToMils::operator()(double distance, int mortarType) const {
+double DistToMils::convert(double distance, int mortarType) const {
     int roundedDist = std::round(distance);
     if (roundedDist <= maxDist[mortarType]) //within bounds
         if (roundedDist % interval[mortarType] == 0) //on given mil
