@@ -121,7 +121,8 @@ double Coordinate::distance(const Coordinate& target) const {
 }
 
 double Coordinate::angle(const Coordinate& target) const {
-    return (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
+    double angleOut = (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
+    return (angleOut > 0) ? angleOut : 360.0 - angleOut;
 }
 
 std::ostream& Coordinate::display(std::ostream& os) const {
