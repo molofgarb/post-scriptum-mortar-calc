@@ -29,53 +29,67 @@ int main() {
 
     bool skip;
     std::vector<std::string> mortarNames{"Short Mortar", "Long Mortar"};
-    std::string input;
-    Coordinate target("");
+    while (true) {
+        std::string input;
+        Mortar mortar("", nullptr);
+        Coordinate target("");
 
-    //begin program
-    cout << "\n\nPost Scriptum Mortar Calculator\n"
+        //begin program
+        cout << "\n\nPost Scriptum Mortar Calculator\n"
         "When inputting coordinates, additional numpads can be added for accuracy\n"
         "(ex. A1-7-7-7-7-...)\n"
         "To exit at any time, type \"exit\" as an input or press Ctrl+C\n"
         "To set a new mortar, type \"new\"" << "\n\n";
-    
-    Mortar mortar = setMortar(mortarNames, table);
 
-    while (true) {
-        //get target coordinate info
-        cout << "Please enter target location below: (ex. A1-7-7)" << '\n';
-        getline(cin, input);
-        cout << endl;
-        if (input == "new") { //set new mortar location
+        while (true) { //try to create a mortar
             mortar = setMortar(mortarNames, table);
-        } else { //take target and perform calculations
-            std::replace(input.begin(), input.end(), ' ', '-');
-
-            //try to create a target
-            try {
-                target = Coordinate(input); }
-            catch (...) {
-                std::cerr << "Invalid target coordinate, exiting program";
-                exit(1);
-            }
-
-            //calculate output
-            double mils = mortar.milradians(target);
-            cout << "Mortar: " << mortar << '\n';
-            cout << "Target: " << target << '\n';
-            cout << "Distance: " << mortar.distance(target) << " m" << "\n\n";
-            cout << endl;
-            cout << "===============================" << '\n';
-            cout << "Milradians: ";
-            if (mils == 0) {
-                cout << "Out of range";
+            if (mortar.validMortar()) {
+                break;
             } else {
-                cout << mils << " milradians";
+                cout << "Invalid mortar coordinate, please try again" << endl;
             }
-            cout << '\n';
-            cout << "Angle: " << mortar.angle(target) << " degrees" << '\n';
-            cout << "===============================" << "\n\n";
+        }
+
+        while (true) {
+            //get target coordinate info
+            cout << "Please enter target location below: (ex. A1-7-7)" << '\n';
+            getline(cin, input);
             cout << endl;
+            if (input == "new") { //set new mortar location
+                mortar = setMortar(mortarNames, table);
+                if (!mortar.validMortar()) {
+                    std::cerr << "Invalid mortar coordinate, restarting program";
+                    break;
+                }
+            } else { //take target and perform calculations
+                std::replace(input.begin(), input.end(), ' ', '-');
+
+                //try to create a target
+                try {
+                    target = Coordinate(input); }
+                catch (...) {
+                    std::cerr << "Invalid target coordinate, restarting program";
+                    break;
+                }
+
+                //calculate output
+                double mils = mortar.milradians(target);
+                cout << "Mortar: " << mortar << '\n';
+                cout << "Target: " << target << '\n';
+                cout << "Distance: " << mortar.distance(target) << " m" << "\n\n";
+                cout << endl;
+                cout << "===============================" << '\n';
+                cout << "Milradians: ";
+                if (mils == 0) {
+                    cout << "Out of range";
+                } else {
+                    cout << mils << " milradians";
+                }
+                cout << '\n';
+                cout << "Angle: " << mortar.angle(target) << " degrees" << '\n';
+                cout << "===============================" << "\n\n";
+                cout << endl;
+            }
         }
     }
 }
@@ -93,29 +107,20 @@ Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table)
     try {
         mortar = Mortar(input, &names, &table); }
     catch (...) {
-        std::cerr << "Invalid mortar coordinate, exiting program";
-        exit(1);
+        return Mortar("", nullptr);
     }
     cout << endl;
 
     //get mortar type info
     cout << "Please enter mortar type: 1 for British 4cm mortar, 0 for all other mortars" << '\n';
     getline(cin, input);
-    if (input == "exit")
-        exit(0);
 
     //try to modify mortar using the type specified
-    try {
-        int inputInt = std::stoi(input);
-        if (inputInt < 0 || inputInt > 1) {
-            throw std::invalid_argument("Type not allowed");
-        }
-        mortar.setType(inputInt);
+    int inputInt = std::stoi(input);
+    if (inputInt < 0 || inputInt > 1) {
+        return Mortar("", nullptr);
     }
-    catch (...) {
-        std::cerr << "Invalid mortar type, exiting program";
-        exit(1);
-    }
+    mortar.setType(inputInt);
     cout << endl;
     return mortar;
 }

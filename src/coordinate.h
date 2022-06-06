@@ -13,12 +13,12 @@ class Coordinate {
     public:
         SubCoordinate(const std::vector<int>& numpads);
         SubCoordinate(int x, int y, int size);
-        inline double xToDouble() const;
-        inline double yToDouble() const;
+        double xToDouble() const;
+        double yToDouble() const;
 
-        inline int getX() const;
-        inline int getY() const;
-        inline int getSize() const;
+        int getX() const;
+        int getY() const;
+        int getSize() const;
     private:
         std::pair<int, int> numpadToSubCoord(const std::vector<int>& numpads, int mult);
 
@@ -33,15 +33,15 @@ public:
     
     ~Coordinate();
     
-    inline double distance(const Coordinate& target) const; //distance between two coordinates
-    inline double angle(const Coordinate& target) const;
+    double distance(const Coordinate& target) const; //distance between two coordinates
+    double angle(const Coordinate& target) const;
 
 protected:
     virtual std::ostream& display(std::ostream& os) const;
 private:
     //finds components of distance between two coordinates
-    inline double xDiff(const Coordinate& target) const;
-    inline double yDiff(const Coordinate& target) const;
+    double xDiff(const Coordinate& target) const;
+    double yDiff(const Coordinate& target) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Coordinate& rhs);
     friend std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs);

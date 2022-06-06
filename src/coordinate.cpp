@@ -116,11 +116,11 @@ inline double Coordinate::yDiff(const Coordinate& target) const {
     return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * kScale;
 }
 
-inline double Coordinate::distance(const Coordinate& target) const {
+double Coordinate::distance(const Coordinate& target) const {
     return std::sqrt(std::pow(xDiff(target), 2) + std::pow(yDiff(target), 2));
 }
 
-inline double Coordinate::angle(const Coordinate& target) const {
+double Coordinate::angle(const Coordinate& target) const {
     double angleOut = (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
     return (angleOut > 0) ? angleOut : 360.0 - angleOut;
 }

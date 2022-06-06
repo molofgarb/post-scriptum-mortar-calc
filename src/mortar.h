@@ -11,13 +11,14 @@
 class Mortar: public Coordinate {
 public:
     Mortar(const std::string& grid, const std::vector<std::string>* names,
-           const DistToMils* table = nullptr, int type = 0);
+           const DistToMils* table = nullptr, int type = -1);
 
-    inline double milradians(const Coordinate& target) const;
+    double milradians(const Coordinate& target) const;
 
-    inline void setType(int type);
+    void setType(int newType);
+    bool validMortar() const;
 protected:
-    inline std::ostream& display(std::ostream& os) const;
+    std::ostream& display(std::ostream& os) const;
 private:
     friend std::ostream& operator<<(std::ostream& os, const Mortar& rhs);
     
