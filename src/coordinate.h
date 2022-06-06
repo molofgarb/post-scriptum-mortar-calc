@@ -36,6 +36,8 @@ public:
     double distance(const Coordinate& target) const; //distance between two coordinates
     double angle(const Coordinate& target) const;
 
+protected:
+    virtual std::ostream& display(std::ostream& os) const;
 private:
     //finds components of distance between two coordinates
     double xDiff(const Coordinate& target) const;

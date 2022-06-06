@@ -1,9 +1,9 @@
 #include "coordinate.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <utility>
-
 #include <cmath>
 
 using std::cin;
@@ -46,14 +46,11 @@ double Coordinate::SubCoordinate::yToDouble() const {
 
 //returns stored data
 int Coordinate::SubCoordinate::getX() const {
-    return x;
-}
+    return x; }
 int Coordinate::SubCoordinate::getY() const {
-    return y;
-}
+    return y; }
 int Coordinate::SubCoordinate::getSize() const {
-    return size;
-}
+    return size; }
 
 //converts bounded xy coordinate back to 
 std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs) {
@@ -124,11 +121,16 @@ double Coordinate::distance(const Coordinate& target) const {
 }
 
 double Coordinate::angle(const Coordinate& target) const {
-    return (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
+    double angleOut = (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
+    return (angleOut > 0) ? angleOut : 360.0 - angleOut;
+}
+
+std::ostream& Coordinate::display(std::ostream& os) const {
+    os << (char)((char)x + 'A') << y + 1; //output xy
+    os << '-' << *sc; //output numpad
+    return os;
 }
 
 std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
-    os << (char)((char)rhs.x + 'A') << rhs.y + 1; //output xy
-    os << '-' << *(rhs.sc); //output numpad
-    return os;
+    return rhs.display(os);
 }
