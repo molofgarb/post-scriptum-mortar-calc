@@ -1,17 +1,13 @@
 ver := -std=c++17
 
 # Build executable
-<<<<<<< HEAD
-psMortarTool: main.o coordinate.o dist_to_mils.o asset.o
-=======
-psMortarTool: main.o coordinate.o dist_to_mils.o mortar.o
->>>>>>> coord-stringstr
+psMortarTool: main.o coordinate.o dist_to_mils.o mortar.o assets.o
 	g++ ${ver} \
 	main.o \
 	coordinate.o \
 	dist_to_mils.o \
 	mortar.o \
-	asset.o \
+	assets.o \
 	-o psMortarTool
 
 # Compile main
@@ -30,6 +26,6 @@ dist_to_mils.o: src/dist_to_mils.h src/dist_to_mils.cpp
 mortar.o: src/mortar.h src/mortar.cpp
 	g++ -c ${ver} src/mortar.cpp -o mortar.o
 
-# Compile asset
-asset.o: src/asset.h src/asset.cpp
-	g++ -c ${ver} src/asset.cpp -o asset.o
+# Compile assets
+assets.o: src/assets.h src/assets.cpp
+	g++ -c ${ver} src/assets.cpp -o assets.o

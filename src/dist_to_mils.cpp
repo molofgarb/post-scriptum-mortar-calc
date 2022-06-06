@@ -48,7 +48,7 @@ double DistToMils::convert(double distance, int mortarType) const {
         return 0;
 }
 
-//Newton's method on interval between 
+//linear approximation between known upper and lower bounded distance
 double DistToMils::approx(int distance, int mortarType) const {
     int inter = interval[mortarType];
     int upper = distance + (inter - (distance % inter)); //upper bound

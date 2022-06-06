@@ -3,24 +3,27 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "coordinate.h"
 #include "dist_to_mils.h"
 
 class Mortar: public Coordinate {
 public:
-    Mortar(const std::string& grid, const std::string& name = "",
-           int type = 0, DistToMils* table = nullptr);
+    Mortar(const std::string& grid, const std::vector<std::string>* names,
+           const DistToMils* table = nullptr, int type = 0);
 
     double milradians(const Coordinate& target) const;
+
+    void setType(int type);
 protected:
     std::ostream& display(std::ostream& os) const;
 private:
     friend std::ostream& operator<<(std::ostream& os, const Mortar& rhs);
     
-    std::string name;
+    const std::vector<std::string>* names;
+    const DistToMils* conversion_table;
     int type;
-    DistToMils* conversion_table;
 };
 
 #endif

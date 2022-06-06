@@ -32,3 +32,6 @@ int TimeAsset::report() const {
 TickTimeAsset::TickTimeAsset(const std::string& name, int cost, int time):
     Asset(name), TicketAsset(name, cost), TimeAsset(name, time) {}
 
+int TickTimeAsset::report() const {
+    
+}

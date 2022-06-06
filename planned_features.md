@@ -18,7 +18,8 @@
 # Misc. Things to do
 - *verify that angle bug fix works (check quadrants)
 - *separate main functionality as a function that can be exited to prevent crash for bad input
-- *implement "prev" functionality to use same mortar coordinate
+- *inline things that can be inlined
+- *show display mortar ranges at heading of program
 - Verify if relative height between mortar and target affects calculations
 - Add list of useful admin commands
 - Add list of tank spawn commands

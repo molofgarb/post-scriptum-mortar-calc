@@ -88,7 +88,7 @@ Coordinate::Coordinate(const std::string& grid):
 }
 
 Coordinate::Coordinate(const Coordinate& other):
-    x(x), y(y) {
+    x(other.x), y(other.y) {
     sc = new SubCoordinate(*other.sc);
 }
 
