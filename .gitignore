@@ -1,7 +1,7 @@
 #
 .vscode
 .DS_Store
-psMortarTool
+./psMortarTool
 
 # Prerequisites
 *.d
