@@ -13,7 +13,7 @@ using std::cout;
 using std::endl;
 
 Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table);
-void getline(std::istream& is, std::string& str);
+inline void getline(std::istream& is, std::string& str);
 
 int main() {
     //open conversion chart and initialize converter obj
@@ -45,8 +45,8 @@ int main() {
         //get target coordinate info
         cout << "Please enter target location below: (ex. A1-7-7)" << '\n';
         getline(cin, input);
+        cout << endl;
         if (input == "new") { //set new mortar location
-            cout << endl;
             mortar = setMortar(mortarNames, table);
         } else { //take target and perform calculations
             std::replace(input.begin(), input.end(), ' ', '-');
@@ -58,7 +58,6 @@ int main() {
                 std::cerr << "Invalid target coordinate, exiting program";
                 exit(1);
             }
-            cout << endl;
 
             //calculate output
             double mils = mortar.milradians(target);
@@ -121,7 +120,7 @@ Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table)
     return mortar;
 }
 
-void getline(std::istream& is, std::string& str) {
+inline void getline(std::istream& is, std::string& str) {
     std::getline(is, str);
     if (str == "exit") 
         exit(0);

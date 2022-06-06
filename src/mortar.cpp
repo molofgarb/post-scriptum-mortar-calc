@@ -10,18 +10,18 @@ Mortar::Mortar(const std::string& grid, const std::vector<std::string>* names,
                const DistToMils* table, int type):
         Coordinate(grid), names(names), conversion_table(table), type(type) {}
 
-double Mortar::milradians(const Coordinate& target) const {
+inline double Mortar::milradians(const Coordinate& target) const {
     return conversion_table->convert(distance(target), type);
 }
 
-void Mortar::setType(int newType) {
+inline void Mortar::setType(int newType) {
     type = newType; }
 
 std::ostream& operator<<(std::ostream& os, const Mortar& rhs) {
     return rhs.display(os);
 }
 
-std::ostream& Mortar::display(std::ostream& os) const {
+inline std::ostream& Mortar::display(std::ostream& os) const {
     os << (*names)[type] << ": "; 
     Coordinate::display(os);
     return os;

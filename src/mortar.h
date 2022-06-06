@@ -13,11 +13,11 @@ public:
     Mortar(const std::string& grid, const std::vector<std::string>* names,
            const DistToMils* table = nullptr, int type = 0);
 
-    double milradians(const Coordinate& target) const;
+    inline double milradians(const Coordinate& target) const;
 
-    void setType(int type);
+    inline void setType(int type);
 protected:
-    std::ostream& display(std::ostream& os) const;
+    inline std::ostream& display(std::ostream& os) const;
 private:
     friend std::ostream& operator<<(std::ostream& os, const Mortar& rhs);
     

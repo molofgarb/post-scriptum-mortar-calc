@@ -37,19 +37,19 @@ std::pair<int, int> Coordinate::SubCoordinate::numpadToSubCoord(const std::vecto
 }
 
 //returns coordinates as a ratio of distance to max distance
-double Coordinate::SubCoordinate::xToDouble() const { 
+inline double Coordinate::SubCoordinate::xToDouble() const { 
     return (double) x / (double) size; 
 }
-double Coordinate::SubCoordinate::yToDouble() const { 
+inline double Coordinate::SubCoordinate::yToDouble() const { 
     return (double) y / (double) size; 
 }
 
 //returns stored data
-int Coordinate::SubCoordinate::getX() const {
+inline int Coordinate::SubCoordinate::getX() const {
     return x; }
-int Coordinate::SubCoordinate::getY() const {
+inline int Coordinate::SubCoordinate::getY() const {
     return y; }
-int Coordinate::SubCoordinate::getSize() const {
+inline int Coordinate::SubCoordinate::getSize() const {
     return size; }
 
 //converts bounded xy coordinate back to 
@@ -107,20 +107,20 @@ Coordinate& Coordinate::operator=(const Coordinate& other) {
 }
 
 //finds the x-component of vector between this and target
-double Coordinate::xDiff(const Coordinate& target) const {
+inline double Coordinate::xDiff(const Coordinate& target) const {
     return ((target.x + target.sc->xToDouble()) - (x + sc->xToDouble())) * kScale;
 }
 
 //finds the y-component of vector between this and target
-double Coordinate::yDiff(const Coordinate& target) const {
+inline double Coordinate::yDiff(const Coordinate& target) const {
     return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * kScale;
 }
 
-double Coordinate::distance(const Coordinate& target) const {
+inline double Coordinate::distance(const Coordinate& target) const {
     return std::sqrt(std::pow(xDiff(target), 2) + std::pow(yDiff(target), 2));
 }
 
-double Coordinate::angle(const Coordinate& target) const {
+inline double Coordinate::angle(const Coordinate& target) const {
     double angleOut = (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
     return (angleOut > 0) ? angleOut : 360.0 - angleOut;
 }
