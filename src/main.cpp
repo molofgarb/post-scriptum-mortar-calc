@@ -33,7 +33,7 @@ int main() {
     cout << "Post Scriptum Mortar Calculator\n"
         "When inputting coordinates, additional numpads can be added for accuracy\n"
         "(ex. A1-7-7-7-7-...)\n"
-        "To exit at any time, type \"exit\" as an input or press Ctrl+C\n" << '\n'
+        "To exit at any time, type \"exit\" as an input or press Ctrl+C\n"
         "To use the last mortar, type \"prev\"" << '\n';
 
     while (true) {
