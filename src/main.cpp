@@ -100,9 +100,9 @@ Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table)
     //get mortar coordinate info
     cout << "Please enter mortar location below: (ex. A1-7-7)" << '\n';
     getline(cin, input);
-    
-    std::replace(input.begin(), input.end(), ' ', '-');
 
+    std::replace(input.begin(), input.end(), ' ', '-');
+    
     //try to create a mortar of default (short) type
     try {
         mortar = Mortar(input, &names, &table); }
@@ -112,17 +112,26 @@ Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table)
     cout << endl;
 
     //get mortar type info
-    cout << "Please enter mortar type: 1 for British 4cm mortar, 0 for all other mortars" << '\n';
-    getline(cin, input);
+    while (true) {
+        cout << "Please enter mortar type: 1 for British 4cm mortar, 0 for all other mortars" << '\n';
+        getline(cin, input);
+        cout << endl;
 
-    //try to modify mortar using the type specified
-    int inputInt = std::stoi(input);
-    if (inputInt < 0 || inputInt > 1) {
-        return Mortar("", nullptr);
+        //try to modify mortar using the type specified
+        try {
+            int inputInt = std::stoi(input);
+            if (inputInt < 0 || inputInt > 1) {
+                throw std::invalid_argument("invalid mortar type");
+            } else {
+                mortar.setType(inputInt);
+                return mortar;
+            }
+        }
+        catch (...) {
+            cout << "Invalid mortar type, please enter a valid type" << '\n';
+            cout << endl;
+        }
     }
-    mortar.setType(inputInt);
-    cout << endl;
-    return mortar;
 }
 
 inline void getline(std::istream& is, std::string& str) {

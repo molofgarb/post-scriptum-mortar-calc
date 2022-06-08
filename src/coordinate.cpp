@@ -1,6 +1,7 @@
 #include "coordinate.h"
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <utility>
@@ -76,10 +77,14 @@ std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs)
 //parses coordinate string
 Coordinate::Coordinate(const std::string& grid):
         x(-1), y(-1), sc(nullptr) {
-    x = std::toupper(grid[0]) - 'A';
-    y = (grid[2] == '-') ? 
-        grid[1] - '1' : 
-        ((grid[1] - '1') * 10 + (grid[2] - '1'));
+    std::stringstream gridStream(grid);
+
+    char xChar;
+    gridStream >> xChar;
+    x = std::toupper(xChar) - 'A';
+
+    gridStream >> y;
+    --y;
 
     std::vector<int> numpads;
     for (size_t i = 3; i < grid.size(); i += 2)
