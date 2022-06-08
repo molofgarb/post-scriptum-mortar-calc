@@ -12,10 +12,15 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+void cli(); //command line interface with program
 Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table);
 inline void getline(std::istream& is, std::string& str);
 
 int main() {
+    cli();
+}
+
+void cli() {
     //open conversion chart and initialize converter obj
     std::ifstream mil_table("PostScriptumMortarMils.csv");
     if (!mil_table) {
@@ -27,7 +32,6 @@ int main() {
     DistToMils table(mil_table, 2, maxDist, interval);
     mil_table.close();
 
-    bool skip;
     std::vector<std::string> mortarNames{"Short Mortar", "Long Mortar"};
     while (true) {
         std::string input;

@@ -58,17 +58,19 @@ std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs)
     int x = rhs.getX();
     int y = rhs.getY();
     int size = rhs.getSize();
-    std::vector<int> numpads; //stored in reverse order - more to less detail
-    while (size > 0) { //generate numpad coordinates
-        numpads.push_back(
-            (x % 3) + ((2 - (y % 3)) * 3) + 1
+    std::vector<int> numpads; 
+    while (size > 1) { //generate numpad coordinates
+        int xDist = x / (size / 3); //highest-level distance from origin 
+        int yDist = y / (size / 3);
+        numpads.push_back( //convert dist (0,1,2) units to numpad
+            (7 - (yDist * 3)) + xDist
         );
-        x /= 3;
-        y /= 3;
-        size /= 3;
+        size /= 3; 
+        x %= size; //remove all solid grids and keep remainder
+        y %= size;
     }
-    for (int i = numpads.size() - 1; i > 0; --i)
-        os << numpads[i] << ((i == 1) ? "" : "-");
+    for (auto i = 0; i < numpads.size(); ++i)
+        os << numpads[i] << ((i == numpads.size() - 1) ? "" : "-");
     return os;
 }
 
