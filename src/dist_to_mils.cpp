@@ -20,7 +20,7 @@ DistToMils::DistToMils(std::istream& is, int mortarNum,
         std::vector<int> mortars;
         int range = 0;
         std::string token;
-        std::stringstream line_stream(line);
+        std::stringstream line_stream(line); //stream of line
         while (std::getline(line_stream, token, ',')) { //break line into tokens
             if (range == 0) { //store range
                 range = std::stoi(token);
@@ -53,7 +53,8 @@ double DistToMils::approx(int distance, int mortarType) const {
     int inter = interval[mortarType];
     int upper = distance + (inter - (distance % inter)); //upper bound
     int lower = distance - (distance % inter); //lower bound
-    double slope = (double)(table.at(upper)[mortarType] - table.at(lower)[mortarType]) / inter;
+    double slope = (double)(table.at(upper)[mortarType] 
+                   - table.at(lower)[mortarType]) / inter;
     return table.at(lower)[mortarType] + (slope * (distance - lower));
 }
 

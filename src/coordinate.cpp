@@ -30,7 +30,7 @@ std::pair<int, int> Coordinate::SubCoordinate::numpadToSubCoord(const std::vecto
                                                                 int mult) {
     std::pair<int, int> coord = std::make_pair(0, 0);
     for (size_t i = 0; i < numpads.size(); i++) {
-        coord.first += ((numpads[i] - 1) % 3) * mult; //add current amount of solid grids
+        coord.first += ((numpads[i] - 1) % 3) * mult; //add scaled solid grids
         coord.second += (2 - ((numpads[i] - 1) / 3)) * (mult);
         mult /= 3; //increase detail
     }
