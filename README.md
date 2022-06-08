@@ -14,3 +14,6 @@ A calculator that performs Post Scriptum and Squad mortar calculations.
 4. Use calculated results to calibrate the mortar in game to hit the target coordinate.
 5. To change the location of the mortar, type "new" when the target coordinate is requested.
 6. To exit the program, type "exit" whenever any input is requested.
+
+## License
+Licensed by the [MIT License](./LICENSE).
