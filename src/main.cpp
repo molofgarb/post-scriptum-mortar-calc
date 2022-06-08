@@ -12,7 +12,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 
-void cli(); //command line interface with program
+//command line interface with program
+void cli(); 
+
 Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table);
 inline void getline(std::istream& is, std::string& str);
 

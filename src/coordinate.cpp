@@ -30,9 +30,9 @@ std::pair<int, int> Coordinate::SubCoordinate::numpadToSubCoord(const std::vecto
                                                                 int mult) {
     std::pair<int, int> coord = std::make_pair(0, 0);
     for (size_t i = 0; i < numpads.size(); i++) {
-        coord.first += ((numpads[i] - 1) % 3) * mult;
+        coord.first += ((numpads[i] - 1) % 3) * mult; //add current amount of solid grids
         coord.second += (2 - ((numpads[i] - 1) / 3)) * (mult);
-        mult /= 3;
+        mult /= 3; //increase detail
     }
     return coord;
 }
@@ -53,19 +53,22 @@ inline int Coordinate::SubCoordinate::getY() const {
 inline int Coordinate::SubCoordinate::getSize() const {
     return size; }
 
-//converts bounded xy coordinate back to 
+//converts and outputs bounded xy coordinate as sequence of numpads 
 std::ostream& operator<<(std::ostream& os, const Coordinate::SubCoordinate& rhs) {
     int x = rhs.getX();
     int y = rhs.getY();
     int size = rhs.getSize();
     std::vector<int> numpads; 
     while (size > 1) { //generate numpad coordinates
-        int xDist = x / (size / 3); //highest-level distance from origin 
-        int yDist = y / (size / 3);
+        size /= 3; //size of number block (ex. 1 on numpad) on grid
+
+        int xDist = x / size; //largest block distance from origin
+        int yDist = y / size;
+
         numpads.push_back( //convert dist (0,1,2) units to numpad
             (7 - (yDist * 3)) + xDist
         );
-        size /= 3; 
+
         x %= size; //remove all solid grids and keep remainder
         y %= size;
     }
@@ -123,21 +126,25 @@ inline double Coordinate::yDiff(const Coordinate& target) const {
     return ((target.y + target.sc->yToDouble()) - (y + sc->yToDouble())) * kScale;
 }
 
+//distance between two coordinates using distance formula
 double Coordinate::distance(const Coordinate& target) const {
     return std::sqrt(std::pow(xDiff(target), 2) + std::pow(yDiff(target), 2));
 }
 
+//angle between two coordinates as would be expressed on a compass
 double Coordinate::angle(const Coordinate& target) const {
     double angleOut = (std::atan2(yDiff(target), xDiff(target)) * (180.0/kPi)) + 90.0;
     return (angleOut > 0) ? angleOut : 360.0 - angleOut;
 }
 
+//displays coordinate as a stream of characters (format ex. "A1-7-7")
 std::ostream& Coordinate::display(std::ostream& os) const {
     os << (char)((char)x + 'A') << y + 1; //output xy
     os << '-' << *sc; //output numpad
     return os;
 }
 
+//calls display function to display coordinate (display() is virtual)
 std::ostream& operator<<(std::ostream& os, const Coordinate& rhs) {
     return rhs.display(os);
 }
