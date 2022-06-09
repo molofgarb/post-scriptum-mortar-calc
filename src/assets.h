@@ -14,7 +14,7 @@ private:
 
     std::string name;
     std::string imageName; //picture of asset
-    bool status;
+    bool status; //alive?
 };
 
 class TicketAsset: virtual public Asset {

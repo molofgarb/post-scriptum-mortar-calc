@@ -35,7 +35,7 @@ void cli() {
     mil_table.close();
 
     std::vector<std::string> mortarNames{"Short Mortar", "Long Mortar"};
-    while (true) {
+    while (true) { //run the main program
         std::string input;
         Mortar mortar("", nullptr);
         Coordinate target("");
@@ -47,7 +47,7 @@ void cli() {
         "To exit at any time, type \"exit\" as an input or press Ctrl+C\n"
         "To set a new mortar, type \"new\"" << "\n\n";
 
-        while (true) { //try to create a mortar
+        while (true) { //try to create a mortar until one is made
             mortar = setMortar(mortarNames, table);
             if (mortar.validMortar()) {
                 break;
@@ -56,7 +56,7 @@ void cli() {
             }
         }
 
-        while (true) {
+        while (true) { //continuously try to get target info
             //get target coordinate info
             cout << "Please enter target location below: (ex. A1-7-7)" << '\n';
             getline(cin, input);
@@ -142,6 +142,6 @@ Mortar setMortar(const std::vector<std::string>& names, const DistToMils& table)
 
 inline void getline(std::istream& is, std::string& str) {
     std::getline(is, str);
-    if (str == "exit") 
+    if (str == "exit")
         exit(0);
 }

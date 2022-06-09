@@ -8,8 +8,6 @@
 #include <sstream>
 #include <cmath>
 
-
-
 //converts milradian data in a csv file 
 DistToMils::DistToMils(std::istream& is, int mortarNum,
                        std::vector<int> maxDist, std::vector<int> interval):
@@ -58,7 +56,7 @@ double DistToMils::approx(int distance, int mortarType) const {
     return table.at(lower)[mortarType] + (slope * (distance - lower));
 }
 
-//output function (mostly used for debug)
+//output function (used for debug)
 std::ostream& operator<<(std::ostream& os, const DistToMils& rhs) {
     for (auto& i : rhs.table) {
         os << i.first << ": ";
