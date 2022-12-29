@@ -1,7 +1,12 @@
+.PHONY: all clean
+
 ver := -std=c++17
 
+all: psMortarTool.exe
+	make clean
+
 # Build executable
-psMortarTool: main.o coordinate.o dist_to_mils.o mortar.o assets.o
+psMortarTool.exe: main.o coordinate.o dist_to_mils.o mortar.o assets.o
 	g++ ${ver} \
 	main.o \
 	coordinate.o \
@@ -29,3 +34,6 @@ mortar.o: src/mortar.h src/mortar.cpp
 # Compile assets
 assets.o: src/assets.h src/assets.cpp
 	g++ -c ${ver} src/assets.cpp -o assets.o
+
+clean:
+	-rm *.o
